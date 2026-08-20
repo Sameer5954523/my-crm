@@ -43,11 +43,12 @@ async function seedUsers() {
     }
 
     console.log('✅ Existing roles normalized & accounts seeded successfully!');
-    process.exit(0);
+    return true;
   } catch (err) {
     console.error('❌ Error seeding users:', err);
-    process.exit(1);
+    throw err; // Pass error back to the route handler instead of crashing Node
   }
 }
 
-seedUsers();
+// Export module without auto-executing or exiting process
+module.exports = seedUsers;
