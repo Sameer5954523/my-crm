@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voice Nation CRM • VISION 4.0 Operations Control Center</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+  /* =========================================================
+     COMPREHENSIVE DYNAMIC LIGHT/DARK THEME SYSTEM
+     ========================================================= */
+
+  :root {
+    --bg-body: #090d16;
+    --bg-card: rgba(18, 27, 48, 0.85);
+    --bg-input: #0b1120;
+    --border-main: rgba(255, 255, 255, 0.08);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    
+    --table-head-bg: rgba(15, 23, 42, 0.95);
+    --table-head-text: #cbd5e1;
+    --table-row-hover: rgba(255, 255, 255, 0.04);
+    --divider-color: rgba(255, 255, 255, 0.08);
+    --shadow-elevation: 0 12px 30px -10px rgba(0, 0, 0, 0.5);
+  }
+
+  [data-theme="light"] {
+    --bg-body: #f1f5f9;
+    --bg-card: rgba(255, 255, 255, 0.95);
+    --bg-input: #ffffff;
+    --border-main: rgba(15, 23, 42, 0.15);
+    --text-main: #0f172a;
+    --text-muted: #475569;
+    
+    --table-head-bg: rgba(226, 232, 240, 0.95);
+    --table-head-text: #0f172a;
+    --table-row-hover: rgba(37, 99, 235, 0.06);
+    --divider-color: rgba(15, 23, 42, 0.1);
+    --shadow-elevation: 0 10px 25px -5px rgba(148, 163, 184, 0.25);
+  }
+
+  body {
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    transition: background-color 0.4s ease, color 0.4s ease;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    position: relative;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Watermark Background Logo */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 650px;
+    height: 650px;
+    background-image: url('https://lh3.googleusercontent.com/d/1j77fZtVfCOGb9d9lBPMogfxYlV-IN6ZK');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    opacity: 0.035;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  [data-theme="light"] body::before {
+    opacity: 0.025;
+  }
+
+  /* Glassmorphism Containers / Cards */
+  .card-glass {
+    background-color: var(--bg-card);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-main);
+    box-shadow: var(--shadow-elevation);
+    border-radius: 16px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.4s ease, border-color 0.4s ease;
+  }
+
+  /* Keyframes & Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scaleUp {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .animate-scale-up {
+    animation: scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* Universal Inputs, Selects & Textareas */
+  input, select, textarea {
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-main);
+    color: var(--text-main);
+    border-radius: 10px;
+    transition: all 0.25s ease;
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: var(--text-muted);
+    opacity: 0.8;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    outline: none;
+  }
+
+  /* Advanced Modern Tables with Centered Text */
+  table { 
+    border-collapse: separate; 
+    border-spacing: 0; 
+    width: 100%; 
+    table-layout: fixed; 
+  }
+  
+  thead tr th {
+    background-color: var(--table-head-bg);
+    color: var(--table-head-text);
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 16px;
+    border-bottom: 2px solid var(--border-main);
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  tbody tr { 
+    transition: all 0.2s ease; 
+  }
+  
+  tbody tr:hover { 
+    background-color: var(--table-row-hover); 
+    transform: scale(1.001);
+  }
+
+  td { 
+    border-bottom: 1px solid var(--divider-color); 
+    padding: 16px; 
+    color: var(--text-main); 
+    font-size: 0.875rem;
+    vertical-align: middle;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Theme Toggle Switcher */
+  .theme-toggle-btn { background: transparent; border: none; cursor: pointer; padding: 4px; display: inline-flex; align-items: center; }
+  .toggle-track { width: 52px; height: 26px; background-color: var(--border-main); border-radius: 9999px; padding: 2px; position: relative; transition: background-color 0.3s ease; }
+  .toggle-thumb { width: 22px; height: 22px; background-color: #ffffff; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: transform 0.35s cubic-bezier(0.68, -0.55, 0.265, 1.55), background-color 0.3s ease; }
+  .sun-icon, .moon-icon { width: 14px; height: 14px; position: absolute; transition: opacity 0.3s ease, transform 0.3s ease; }
+  .sun-icon { stroke: #f59e0b; opacity: 0; transform: rotate(-90deg) scale(0.5); }
+  .moon-icon { stroke: #3b82f6; opacity: 1; transform: rotate(0deg) scale(1); }
+  [data-theme="light"] .toggle-thumb { transform: translateX(26px); background-color: #0f172a; }
+  [data-theme="light"] .sun-icon { opacity: 1; transform: rotate(0deg) scale(1); }
+  [data-theme="light"] .moon-icon { opacity: 0; transform: rotate(90deg) scale(0.5); }
+
+  /* Progress Bars */
+  .disposition-bar-bg { background-color: var(--bg-input); border-radius: 9999px; height: 8px; overflow: hidden; border: 1px solid var(--border-main); }
+  .disposition-bar-fill { height: 100%; border-radius: 9999px; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+
+  #reports-view, #dashboard-section, #agents-view, #appointments-view, #slot-dashboard-view { width: 100%; max-width: 100%; }
+  
+  /* Responsive CRM polish */
+  .metric-card { position: relative; overflow: hidden; }
+  .metric-card::after {
+    content: "";
+    position: absolute;
+    inset: auto -20% -65% 35%;
+    height: 110px;
+    background: radial-gradient(circle, rgba(59,130,246,.18), transparent 65%);
+    pointer-events: none;
+  }
+  .sla-overdue { animation: slaPulse 1.5s ease-in-out infinite; }
+  @keyframes slaPulse { 50% { box-shadow: 0 0 0 5px rgba(244,63,94,.08); } }
+  @media (max-width: 640px) {
+    body { padding: 10px !important; }
+    .card-glass { border-radius: 14px; }
+    thead tr th, td { padding: 10px !important; }
+    table { min-width: 920px; }
+  }
+  @media (min-width: 1600px) {
+    body { padding-left: 28px; padding-right: 28px; }
+  }
+
+
+  /* Premium CRM surface */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(37,99,235,.10), transparent 28%),
+      radial-gradient(circle at 90% 10%, rgba(124,58,237,.08), transparent 25%);
+  }
+  header.card-glass {
+    position: sticky;
+    top: 14px;
+    z-index: 30;
+    border-color: rgba(59,130,246,.16);
+    box-shadow: 0 18px 50px -25px rgba(37,99,235,.45), var(--shadow-elevation);
+  }
+  .card-glass:hover {
+    border-color: color-mix(in srgb, #3b82f6 22%, var(--border-main));
+  }
+  button, select, input, textarea { -webkit-tap-highlight-color: transparent; }
+  button:active { transform: translateY(1px); }
+  .metric-card {
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--bg-card) 94%, #3b82f6 6%), var(--bg-card));
+  }
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .35rem .6rem;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .01em;
+    border: 1px solid var(--border-main);
+    white-space: nowrap;
+  }
+  .queue-section-label {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--bg-card) 96%, #3b82f6 4%), var(--bg-card));
+  }
+  .ai-glow {
+    background:
+      radial-gradient(circle at 85% 15%, rgba(168,85,247,.15), transparent 28%),
+      linear-gradient(135deg, color-mix(in srgb, var(--bg-card) 96%, #7c3aed 4%), var(--bg-card));
+  }
+  @media (max-width: 768px) {
+    header.card-glass { position: relative; top: 0; }
+    .metric-card { min-height: 108px; }
+    #search-input { width: 100% !important; }
+  }
+  @media (min-width: 1920px) {
+    body > div { max-width: 1840px !important; }
+  }
+
+  /* Utility for toggling views safely */
+  .hidden { display: none !important; }
+  
+/* =========================================================
+   VISION CRM — COMPLETE PROFESSIONAL SHELL
+   ========================================================= */
+:root{
+  --brand:#2563eb; --brand2:#7c3aed; --success:#10b981; --warning:#f59e0b; --danger:#ef4444;
+  --sidebar:rgba(8,15,30,.96); --sidebar-border:rgba(148,163,184,.12);
+}
+[data-theme="light"]{
+  --sidebar:#ffffff; --sidebar-border:rgba(15,23,42,.09);
+}
+body{background:
+ radial-gradient(circle at 0% 0%,rgba(37,99,235,.12),transparent 25%),
+ radial-gradient(circle at 100% 0%,rgba(124,58,237,.09),transparent 25%),
+ var(--bg-body)!important;}
+.crm-shell{max-width:none!important;margin:0!important;padding:0 28px 40px 304px!important;}
+.crm-sidebar{
+ position:fixed;left:16px;top:16px;bottom:16px;width:260px;z-index:100;
+ background:var(--sidebar);border:1px solid var(--sidebar-border);border-radius:24px;
+ box-shadow:0 24px 70px rgba(0,0,0,.22);backdrop-filter:blur(18px);
+ display:flex;flex-direction:column;padding:20px 14px;
+}
+.crm-brand{display:flex;align-items:center;gap:12px;padding:5px 10px 22px;border-bottom:1px solid var(--sidebar-border)}
+.crm-logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#2563eb,#7c3aed);display:grid;place-items:center;color:white;font-weight:900;box-shadow:0 10px 25px rgba(37,99,235,.35)}
+.crm-brand-title{font-weight:900;font-size:14px;letter-spacing:-.02em}.crm-brand-sub{font-size:9px;opacity:.55;margin-top:2px}
+.crm-nav{display:flex;flex-direction:column;gap:6px;margin-top:18px}
+.crm-nav-btn{
+ width:100%;display:flex;align-items:center;gap:11px;padding:12px 13px;border-radius:13px;
+ color:var(--text-muted);background:transparent;border:1px solid transparent;text-align:left;
+ font-size:12px;font-weight:750;cursor:pointer;transition:.2s;
+}
+.crm-nav-btn:hover{background:rgba(37,99,235,.08);color:var(--text-main);transform:translateX(2px)}
+.crm-nav-btn.active{background:linear-gradient(90deg,rgba(37,99,235,.18),rgba(124,58,237,.08));border-color:rgba(59,130,246,.18);color:var(--text-main)}
+.crm-nav-icon{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:rgba(148,163,184,.08)}
+.crm-sidebar-footer{margin-top:auto;border-top:1px solid var(--sidebar-border);padding-top:14px}
+.crm-user-card{display:flex;align-items:center;gap:10px;padding:10px;border-radius:13px;background:rgba(148,163,184,.06)}
+.crm-avatar{width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,#0ea5e9,#6366f1);color:white;display:grid;place-items:center;font-weight:900;font-size:12px}
+.crm-topbar{
+ position:sticky!important;top:16px!important;z-index:60;margin:16px 0 22px!important;
+ min-height:76px;border-radius:20px!important;padding:14px 18px!important;
+}
+.crm-topbar .legacy-nav{display:none!important}
+.crm-topbar > .flex.items-center.gap-4 h1{display:none!important}.crm-topbar-title{display:flex;flex-direction:column}.crm-eyebrow{font-size:9px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;color:#3b82f6}.crm-page-title{font-size:18px;font-weight:900;letter-spacing:-.03em}
+.crm-status{display:inline-flex;align-items:center;gap:7px;font-size:10px;font-weight:800;padding:7px 10px;border-radius:999px;background:rgba(16,185,129,.09);color:#10b981;border:1px solid rgba(16,185,129,.18)}
+.crm-status-dot{width:6px;height:6px;border-radius:50%;background:#10b981;box-shadow:0 0 10px #10b981}
+.crm-hero{
+ padding:24px!important;border-radius:22px!important;position:relative;overflow:hidden;
+ background:linear-gradient(135deg,rgba(37,99,235,.16),rgba(124,58,237,.10)),var(--bg-card)!important;
+}
+.crm-hero:after{content:"";position:absolute;width:240px;height:240px;border-radius:50%;right:-90px;top:-100px;background:rgba(99,102,241,.15);filter:blur(4px)}
+.crm-hero h2{font-size:25px!important;letter-spacing:-.04em}.crm-hero p{max-width:680px}
+.crm-kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.crm-kpi{padding:17px;border-radius:18px;background:var(--bg-card);border:1px solid var(--border-main);box-shadow:var(--shadow-elevation);position:relative;overflow:hidden}
+.crm-kpi .label{font-size:9px;text-transform:uppercase;letter-spacing:.12em;font-weight:850;opacity:.58}.crm-kpi .value{font-size:27px;font-weight:950;letter-spacing:-.04em;margin-top:6px}.crm-kpi .hint{font-size:9px;opacity:.5;margin-top:4px}
+.crm-kpi .accent{position:absolute;right:14px;top:16px;width:9px;height:9px;border-radius:50%;background:#3b82f6;box-shadow:0 0 18px #3b82f6}
+.pipeline-shell{border-radius:22px!important}.pipeline-shell .section-title{font-size:15px;font-weight:900}.section-caption{font-size:10px;opacity:.55}
+.sla-card{border-left:4px solid var(--danger)!important;background:linear-gradient(90deg,rgba(239,68,68,.10),transparent),var(--bg-card)!important}
+.sla-card .sla-count{font-size:22px;font-weight:950;color:#ef4444}
+.table-toolbar{background:rgba(148,163,184,.035);border:1px solid var(--border-main);border-radius:15px;padding:10px}
+tbody tr{height:68px}
+tbody tr:hover{background:rgba(37,99,235,.045)!important}
+.status-pill{font-size:9px!important;font-weight:850!important;padding:6px 9px!important}
+.action-btn{border-radius:9px!important}
+.ai-glow{border:1px solid rgba(124,58,237,.18)!important}
+.crm-section{animation:crmUp .3s ease both}@keyframes crmUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(max-width:1100px){
+ .crm-shell{padding-left:20px!important;padding-right:20px!important}
+ .crm-sidebar{position:relative;left:auto;top:auto;bottom:auto;width:auto;margin:12px 0;height:auto;border-radius:18px;padding:10px;display:block}
+ .crm-brand{display:inline-flex;border:0;padding:5px 8px 10px}.crm-nav{display:flex;flex-direction:row;overflow-x:auto;margin:0;padding-bottom:2px}.crm-nav-btn{min-width:max-content;width:auto}.crm-sidebar-footer{display:none}
+ .crm-topbar{top:10px!important;margin-top:10px!important}
+}
+@media(max-width:700px){
+ .crm-shell{padding:8px 10px 30px!important}.crm-topbar{position:relative!important;top:0!important}.crm-page-title{font-size:15px}.crm-hero{padding:18px!important}.crm-hero h2{font-size:20px!important}
+ .crm-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.crm-kpi{padding:13px}.crm-kpi .value{font-size:22px}
+}
+
+  
+/* ===== VISION CRM 4.0 — unmistakable role workspaces ===== */
+:root{
+ --v4-bg:#070b14;--v4-surface:#0e1627;--v4-surface2:#111c31;--v4-line:rgba(148,163,184,.14);
+ --v4-blue:#3b82f6;--v4-cyan:#22d3ee;--v4-green:#22c55e;--v4-amber:#f59e0b;--v4-red:#ef4444;--v4-purple:#8b5cf6;
+}
+[data-theme="light"]{--v4-bg:#f5f7fb;--v4-surface:#fff;--v4-surface2:#f8fafc;--v4-line:rgba(15,23,42,.10)}
+body{background:var(--v4-bg)!important}
+.v4-command{display:grid;grid-template-columns:1.35fr repeat(4,1fr);gap:12px;margin-bottom:18px}
+.v4-hero{padding:22px;border:1px solid var(--v4-line);border-radius:22px;background:
+ linear-gradient(135deg,rgba(59,130,246,.15),rgba(139,92,246,.10) 55%,transparent),
+ var(--v4-surface);box-shadow:0 18px 55px rgba(0,0,0,.16)}
+.v4-hero h2{font-size:24px;font-weight:900;letter-spacing:-.04em;margin:5px 0}
+.v4-kpi{min-height:105px;padding:16px;border-radius:18px;border:1px solid var(--v4-line);background:var(--v4-surface);position:relative;overflow:hidden}
+.v4-kpi:after{content:"";position:absolute;width:90px;height:90px;border-radius:50%;right:-35px;bottom:-45px;background:rgba(59,130,246,.13)}
+.v4-kpi-label{font-size:9px;font-weight:900;letter-spacing:.13em;text-transform:uppercase;opacity:.58}
+.v4-kpi-value{font-size:25px;font-weight:950;margin-top:7px}
+.v4-kpi-sub{font-size:9px;opacity:.52;margin-top:3px}
+.v4-workspace{display:grid;grid-template-columns:1fr 330px;gap:16px;margin-bottom:18px}
+.v4-panel{background:var(--v4-surface);border:1px solid var(--v4-line);border-radius:20px;padding:18px;box-shadow:0 15px 45px rgba(0,0,0,.10)}
+.v4-panel-title{font-size:12px;font-weight:900;letter-spacing:.03em}
+.v4-panel-sub{font-size:10px;opacity:.55;margin-top:3px}
+.v4-pills{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}
+.v4-pill{border:1px solid var(--v4-line);background:var(--v4-surface2);padding:9px 12px;border-radius:11px;font-size:10px;font-weight:850;cursor:pointer}
+.v4-pill:hover,.v4-pill.active{background:rgba(59,130,246,.13);border-color:rgba(59,130,246,.35);color:var(--v4-blue)}
+.v4-sla{display:flex;align-items:center;justify-content:space-between;padding:11px 12px;border-radius:13px;background:var(--v4-surface2);border:1px solid var(--v4-line);margin-top:9px}
+.v4-sla strong{font-size:11px}.v4-sla span{font-size:10px;font-weight:900}
+.v4-sla.overdue{border-color:rgba(239,68,68,.45);background:rgba(239,68,68,.08);color:var(--v4-red)}
+.v4-sla.warn{border-color:rgba(245,158,11,.35);background:rgba(245,158,11,.07);color:var(--v4-amber)}
+.v4-ai{background:linear-gradient(135deg,rgba(139,92,246,.13),rgba(59,130,246,.07)),var(--v4-surface)}
+.v4-ai-score{font-size:34px;font-weight:950;line-height:1}
+.v4-ai-list{margin-top:12px;display:grid;gap:7px}.v4-ai-list div{font-size:10px;padding:9px 10px;border-radius:10px;background:rgba(148,163,184,.06);border:1px solid var(--v4-line)}
+.v4-mobile-menu{display:none}
+.v4-lock{display:inline-flex;align-items:center;gap:5px;padding:4px 7px;border-radius:999px;font-size:9px;font-weight:900;background:rgba(245,158,11,.10);color:var(--v4-amber)}
+.v4-overdue-top{display:none;position:fixed;top:0;left:0;right:0;z-index:9999;background:#b91c1c;color:#fff;text-align:center;padding:8px;font-size:11px;font-weight:900;box-shadow:0 5px 20px rgba(185,28,28,.35)}
+.v4-overdue-top.show{display:block}
+@media(max-width:1250px){.v4-command{grid-template-columns:1fr 1fr 1fr}.v4-hero{grid-column:1/-1}}
+@media(max-width:850px){.crm-shell{padding:0 12px 30px!important}.crm-sidebar{display:none}.crm-topbar{margin-top:8px!important}.v4-workspace{grid-template-columns:1fr}.v4-command{grid-template-columns:1fr 1fr}.v4-hero{grid-column:1/-1}.v4-mobile-menu{display:inline-flex}}
+@media(max-width:520px){.v4-command{grid-template-columns:1fr}.v4-hero{grid-column:auto}.v4-hero h2{font-size:20px}}
+.v4-legacy-hidden{display:none!important}
+#v4-app-shell{min-height:calc(100vh - 18px);width:100%;position:relative;z-index:2}
+.v4-layout{display:grid;grid-template-columns:235px minmax(0,1fr);min-height:calc(100vh - 18px);gap:0}
+.v4-sidebar{background:linear-gradient(180deg,rgba(8,15,29,.98),rgba(7,11,20,.98));border-right:1px solid var(--v4-line);padding:18px 13px;display:flex;flex-direction:column;position:sticky;top:0;height:calc(100vh - 18px)}
+[data-theme="light"] .v4-sidebar{background:#fff}
+.v4-brand{display:flex;align-items:center;gap:10px;padding:7px 8px 18px}.v4-brand-mark{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-size:11px;font-weight:950;color:white;background:linear-gradient(135deg,#2563eb,#06b6d4);box-shadow:0 8px 24px rgba(37,99,235,.25)}.v4-brand b{display:block;font-size:11px;letter-spacing:.08em}.v4-brand span{display:block;font-size:8px;opacity:.5;margin-top:2px;letter-spacing:.13em}
+.v4-status{margin:0 6px 14px;padding:8px 10px;border:1px solid var(--v4-line);border-radius:10px;font-size:8px;font-weight:900;letter-spacing:.12em;opacity:.7}.v4-status i,.v4-live-pill i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#22c55e;margin-right:6px;box-shadow:0 0 10px #22c55e}
+.v4-nav{display:grid;gap:4px}.v4-nav-btn{border:0;background:transparent;color:inherit;text-align:left;padding:11px 12px;border-radius:11px;font-size:10px;font-weight:800;opacity:.65;cursor:pointer;display:flex;gap:10px;align-items:center}.v4-nav-btn span{width:17px;text-align:center;font-size:14px}.v4-nav-btn:hover,.v4-nav-btn.active{background:rgba(59,130,246,.12);color:var(--v4-blue);opacity:1}.v4-side-bottom{margin-top:auto}.v4-user{display:flex;gap:9px;align-items:center;padding:11px;border:1px solid var(--v4-line);border-radius:13px}.v4-avatar{width:31px;height:31px;border-radius:9px;display:grid;place-items:center;background:rgba(59,130,246,.15);color:var(--v4-blue);font-size:9px;font-weight:950}.v4-user b{display:block;font-size:9px;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.v4-user small{font-size:7px;opacity:.45}.v4-signout{width:100%;margin-top:8px;padding:9px;border:1px solid rgba(239,68,68,.16);background:rgba(239,68,68,.05);color:#ef4444;border-radius:10px;font-size:9px;font-weight:850;cursor:pointer}
+.v4-main{min-width:0;padding:0 24px 30px}.v4-topbar{height:76px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--v4-line);margin-bottom:22px}.v4-topbar small{font-size:7px;letter-spacing:.15em;opacity:.4}.v4-topbar h1{font-size:20px;font-weight:950;letter-spacing:-.04em;margin:3px 0 0}.v4-top-actions{display:flex;gap:8px;align-items:center}.v4-live-pill{padding:7px 10px;border:1px solid var(--v4-line);border-radius:999px;font-size:8px;font-weight:900}.v4-icon-btn,.v4-small-btn{border:1px solid var(--v4-line);background:var(--v4-surface);color:inherit;border-radius:10px;padding:9px 11px;font-size:9px;font-weight:850;cursor:pointer}.v4-small-btn.active,.v4-small-btn:hover{border-color:rgba(59,130,246,.35);background:rgba(59,130,246,.1);color:var(--v4-blue)}.v4-eyebrow{font-size:8px;letter-spacing:.14em;font-weight:900;color:var(--v4-blue);margin-bottom:6px}.v4-hero-grid{display:grid;grid-template-columns:1.8fr repeat(4,1fr);gap:12px}.v4-hero-card,.v4-kpi,.v4-card{border:1px solid var(--v4-line);background:var(--v4-surface);border-radius:18px;box-shadow:0 15px 45px rgba(0,0,0,.08)}.v4-hero-card{padding:22px;background:linear-gradient(135deg,rgba(37,99,235,.15),rgba(6,182,212,.05)),var(--v4-surface)}.v4-hero-card span{font-size:8px;font-weight:900;letter-spacing:.14em;opacity:.55}.v4-hero-card h2{font-size:25px;font-weight:950;letter-spacing:-.05em;margin:7px 0}.v4-hero-card p{font-size:10px;opacity:.58;line-height:1.6;max-width:620px}.v4-kpi{padding:16px}.v4-kpi small{display:block;font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;opacity:.5}.v4-kpi strong{display:block;font-size:25px;margin:8px 0 3px}.v4-kpi span{font-size:8px;opacity:.45}.v4-grid-2{display:grid;grid-template-columns:1.5fr 1fr;gap:14px;margin-top:14px}.v4-card{padding:17px}.v4-card-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}.v4-card-head b{display:block;font-size:11px}.v4-card-head span{display:block;font-size:8px;opacity:.48;margin-top:3px}.v4-progress-row{display:flex;justify-content:space-between;padding:12px;border-radius:11px;background:var(--v4-surface2);margin-top:7px;font-size:9px}.v4-progress-row b.danger{color:var(--v4-red)}.v4-health-score{font-size:42px;font-weight:950}.v4-health p{font-size:9px;opacity:.5}.v4-mini-alert{padding:10px;border-radius:10px;background:rgba(34,197,94,.08);color:#22c55e;font-size:9px;margin-top:12px}.v4-mini-alert.danger{background:rgba(239,68,68,.08);color:#ef4444}.v4-toolbar{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:14px}.v4-toolbar h2{font-size:22px;font-weight:950;letter-spacing:-.04em}.v4-toolbar-actions{display:flex;gap:7px;flex-wrap:wrap}.v4-table-wrap{overflow:auto}.v4-table{width:100%;border-collapse:collapse;min-width:760px}.v4-table th{font-size:8px;text-transform:uppercase;letter-spacing:.1em;opacity:.42;text-align:left;padding:10px;border-bottom:1px solid var(--v4-line)}.v4-table td{font-size:9px;padding:13px 10px;border-bottom:1px solid var(--v4-line);vertical-align:middle}.v4-table td b{display:block;font-size:10px}.v4-table td small{display:block;font-size:8px;opacity:.45;margin-top:3px}.v4-row-overdue{background:rgba(239,68,68,.055)}.v4-row-overdue td:first-child b{color:var(--v4-red)}.v4-select{width:100%;max-width:230px;padding:8px;border-radius:9px;border:1px solid var(--v4-line);background:var(--v4-surface2);color:inherit;font-size:8px}.v4-status,.v4-access{display:inline-flex;padding:5px 7px;border-radius:999px;background:rgba(148,163,184,.08);font-size:8px;font-weight:850}.v4-access.own{color:#22c55e;background:rgba(34,197,94,.08)}.v4-empty{text-align:center!important;padding:40px!important;opacity:.45}.v4-sla-banner{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}.v4-sla-banner>div{padding:15px;border-radius:15px;border:1px solid var(--v4-line);background:var(--v4-surface)}.v4-sla-banner b{display:block;font-size:10px}.v4-sla-banner span{display:block;font-size:8px;opacity:.5;margin-top:4px}.v4-danger-summary{padding:9px 12px;border-radius:999px;background:rgba(239,68,68,.08);color:#ef4444;font-size:9px;font-weight:900}.v4-ai-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}.v4-ai-grid .v4-card strong{display:block;font-size:35px;margin:8px 0}.v4-ai-grid .v4-card span{font-size:8px;opacity:.5}.v4-ai-list{display:grid;gap:7px}.v4-ai-list div{padding:10px;border-radius:10px;background:var(--v4-surface2);font-size:9px}.v4-ai-list span{color:#ef4444}.v4-overdue-top{display:none;position:fixed;top:0;left:235px;right:0;z-index:100;background:#b91c1c;color:#fff;text-align:center;padding:8px;font-size:10px;font-weight:900;box-shadow:0 5px 20px rgba(185,28,28,.35)}.v4-overdue-top.show{display:block}
+@media(max-width:1100px){.v4-layout{grid-template-columns:190px 1fr}.v4-main{padding:0 15px 25px}.v4-hero-grid{grid-template-columns:1fr 1fr}.v4-hero-card{grid-column:1/-1}.v4-grid-2{grid-template-columns:1fr}.v4-overdue-top{left:190px}.v4-sidebar{position:relative;height:auto;min-height:100vh}}
+@media(max-width:720px){.v4-layout{display:block}.v4-sidebar{display:none}.v4-main{padding:0 10px 20px}.v4-topbar{height:68px}.v4-topbar h1{font-size:17px}.v4-hero-grid{grid-template-columns:1fr 1fr}.v4-sla-banner,.v4-ai-grid{grid-template-columns:1fr}.v4-overdue-top{left:0}.v4-toolbar{align-items:start;flex-direction:column}.v4-table{min-width:650px}}
+@media(max-width:450px){.v4-hero-grid{grid-template-columns:1fr}.v4-hero-card{grid-column:auto}.v4-kpi strong{font-size:22px}}
+
+
+</style>
+</head>
+
+<body class="min-h-screen p-4 sm:p-6 lg:p-8">
+  <div class="w-full max-w-[1600px] mx-auto space-y-6 relative z-10 crm-shell">
+    <aside id="crm-sidebar" class="crm-sidebar">
+      <div class="crm-brand">
+        <div class="crm-logo">VN</div><div><div class="crm-brand-title">Voice Nation CRM</div><div class="crm-brand-sub">OPERATIONS CONTROL CENTER</div></div>
+      </div>
+      <nav class="crm-nav" id="crm-nav">
+        <button class="crm-nav-btn active" data-view="pipeline" onclick="switchTab('pipeline')"><span class="crm-nav-icon">⌂</span>Workspace</button>
+        <button class="crm-nav-btn hidden" data-view="slots" onclick="switchTab('slots')"><span class="crm-nav-icon">◷</span>Appointments</button>
+        <button class="crm-nav-btn hidden" data-view="reports" onclick="switchTab('reports')"><span class="crm-nav-icon">◒</span>Intelligence</button>
+        <button class="crm-nav-btn hidden" data-view="agents" onclick="switchTab('agents')"><span class="crm-nav-icon">◎</span>Team & Access</button>
+      </nav>
+      <div class="crm-sidebar-footer"><div class="crm-user-card"><div class="crm-avatar" id="crm-avatar">VN</div><div style="min-width:0"><div id="crm-user-name" style="font-size:11px;font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Workspace</div><div id="crm-user-role" style="font-size:9px;opacity:.55;text-transform:uppercase">SECURE SESSION</div></div></div><button onclick="logout()" style="width:100%;margin-top:8px;padding:10px;border-radius:11px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.14);color:#ef4444;font-size:10px;font-weight:850;cursor:pointer">Sign out securely</button></div>
+    </aside>
+
+
+    <!-- Header Navigation Bar -->
+    <header class="card-glass p-4 sm:p-5 flex flex-col sm:flex-row justify-between items-center gap-4 animate-fade-in crm-topbar">
+      <div class="crm-topbar-title"><span class="crm-eyebrow">Voice Nation • Secure Operations</span><span class="crm-page-title" id="crm-page-title">Operations Workspace</span></div>
+      <div class="flex items-center gap-3"><span class="crm-status"><span class="crm-status-dot"></span>System Online</span>
+      </div><div class="flex items-center gap-4">
+        <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight bg-gradient-to-r from-blue-500 to-indigo-600 bg-clip-text text-transparent">
+          Voice Nation DWP Portal
+        </h1>
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle" onclick="toggleTheme()" class="theme-toggle-btn" aria-label="Toggle Theme">
+          <div class="toggle-track">
+            <div class="toggle-thumb">
+              <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+              <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+            </div>
+          </div>
+        </button>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-3 legacy-nav">
+        <button id="nav-pipeline-btn" onclick="switchTab('pipeline')" class="hidden px-3.5 py-2 rounded-xl text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-500/25 transition-all transform hover:-translate-y-0.5">
+          📊 Pipeline
+        </button>
+        <button id="nav-appointments-btn" onclick="switchTab('slots')" class="hidden px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-700 transition-all transform hover:-translate-y-0.5">
+          📅 Appointments & Slots
+        </button>
+        <button id="nav-agents-btn" onclick="switchTab('agents')" class="hidden px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-700 transition-all transform hover:-translate-y-0.5">
+          👥 Agent Management
+        </button>
+        <button id="nav-reports-btn" onclick="switchTab('reports')" class="hidden px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-700 transition-all transform hover:-translate-y-0.5">
+          📈 Analytics & Reports
+        </button>
+        <div id="user-info" class="hidden flex items-center gap-3 pl-2 border-l border-slate-300 dark:border-slate-700">
+          <span id="user-display" class="font-medium text-xs hidden md:inline opacity-80"></span>
+          <button onclick="logout()" class="bg-rose-500/20 hover:bg-rose-600 text-rose-600 dark:text-rose-300 hover:text-white px-3 py-1.5 rounded-xl text-xs font-semibold transition-all">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Login View -->
+    <div id="login-section" class="max-w-md mx-auto card-glass p-8 space-y-6 animate-scale-up mt-12">
+      <div class="text-center space-y-2">
+        <h2 class="text-2xl font-bold tracking-tight">Welcome Back</h2>
+        <p class="text-xs opacity-75">Sign in to access your secure agent dashboard</p>
+      </div>
+      <form onsubmit="handleLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs opacity-75 mb-1">Email Address</label>
+          <input type="email" id="login-email" placeholder="name@voicewation.com" required class="w-full p-3 text-sm">
+        </div>
+        <div>
+          <label class="block text-xs opacity-75 mb-1">Password</label>
+          <input type="password" id="login-password" placeholder="••••••••" required class="w-full p-3 text-sm">
+        </div>
+        <div id="login-error" class="hidden text-xs text-rose-500 bg-rose-500/10 p-2.5 rounded-lg border border-rose-500/30"></div>
+        <button type="submit" class="w-full py-3 rounded-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-500/25 transition-all transform hover:-translate-y-0.5">
+          Sign In
+        </button>
+      </form>
+    </div>
+
+    <!-- Main CRM Pipeline Dashboard View -->
+    <main id="dashboard-section" class="hidden space-y-6 animate-fade-in">
+      <section class="card-glass crm-hero crm-section">
+        <div style="position:relative;z-index:2"><div class="crm-eyebrow">Live pipeline</div><h2 id="crm-welcome-title">Good to see you.</h2><p class="text-xs opacity-65 mt-2" id="crm-welcome-subtitle">Manage leads, ownership, dispositions and service-level deadlines from one workspace.</p></div>
+      </section>
+
+
+      <!-- Fronting Lead Submission Form (Updated with Monday-Friday Day Selection) -->
+      <section id="add-lead-section" class="card-glass p-6 space-y-4 crm-section">
+        <h2 class="text-lg font-bold">Fronting Lead Submission</h2>
+        <form onsubmit="handleCreateLead(event)" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs opacity-75 mb-1">Customer Name</label>
+              <input type="text" id="lead-name" placeholder="John Doe" required class="w-full p-2.5 text-xs">
+            </div>
+            <div>
+              <label class="block text-xs opacity-75 mb-1">Customer Number</label>
+              <input type="text" id="lead-phone" placeholder="+1 (555) 000-0000" required class="w-full p-2.5 text-xs">
+            </div>
+            <div>
+              <label class="block text-xs opacity-75 mb-1">Customer Date of Birth</label>
+              <input type="date" id="lead-dob" required class="w-full p-2.5 text-xs">
+            </div>
+            <div>
+              <label class="block text-xs opacity-75 mb-1">Assigned to (Closer)</label>
+              <select id="lead-assigned-to" required class="w-full p-2.5 text-xs">
+                <option value="">Select Closer...</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs opacity-75 mb-1">Booking Day</label>
+              <select id="lead-booking-day" required class="w-full p-2.5 text-xs">
+                <option value="">Select Day...</option>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs opacity-75 mb-1">Booking Time Slot</label>
+              <select id="lead-booking-time" required class="w-full p-2.5 text-xs">
+                <option value="">Select Time Slot...</option>
+                <option value="9:15 AM">9:15 AM</option>
+                <option value="10:15 AM">10:15 AM</option>
+                <option value="11:30 AM">11:30 AM</option>
+                <option value="12:45 PM">12:45 PM</option>
+                <option value="1:45 PM">1:45 PM</option>
+                <option value="3:00 PM">3:00 PM</option>
+                <option value="4:15 PM">4:15 PM</option>
+                <option value="5:00 PM">5:00 PM</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs opacity-75 mb-1">Additional Notes</label>
+            <textarea id="lead-notes" placeholder="Notes regarding customer preferences or queries..." rows="2" class="w-full p-2.5 text-xs"></textarea>
+          </div>
+          <div class="flex justify-end">
+            <button type="submit" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold text-xs px-5 py-2.5 rounded-xl shadow-md transition-all transform hover:-translate-y-0.5">
+              Submit Lead (Pending)
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Fronter KPI strip: immutable submission ownership + closer outcome -->
+      <section id="fronter-summary" class="hidden grid crm-section grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="card-glass metric-card p-5">
+          <span class="text-xs font-semibold uppercase tracking-wider opacity-70">My Submitted Leads</span>
+          <div id="fronter-total-leads" class="text-3xl font-extrabold mt-2">0</div>
+          <span class="text-[10px] opacity-60">Leads submitted by you</span>
+        </div>
+        <div class="card-glass metric-card p-5">
+          <span class="text-xs font-semibold uppercase tracking-wider opacity-70">Completed / Handed to Chase</span>
+          <div id="fronter-completed-leads" class="text-3xl font-extrabold text-emerald-500 mt-2">0</div>
+          <span class="text-[10px] opacity-60">Based on closer disposition</span>
+        </div>
+        <div class="card-glass metric-card p-5">
+          <span class="text-xs font-semibold uppercase tracking-wider opacity-70">Completion Ratio</span>
+          <div id="fronter-completion-rate" class="text-3xl font-extrabold text-blue-500 mt-2">0%</div>
+          <span class="text-[10px] opacity-60">Closer outcome ÷ your leads</span>
+        </div>
+      </section>
+
+      <!-- Chase SLA Alert Bar -->
+      <section id="chase-overdue-banner" class="hidden card-glass sla-card p-4 border-rose-500/40 bg-rose-500/5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <div class="text-xs font-extrabold uppercase tracking-wider text-rose-500">🚨 Chase SLA Attention Required</div>
+            <div id="chase-overdue-text" class="text-sm mt-1">Overdue workflow items require action.</div>
+          </div>
+          <button onclick="switchTab('reports')" class="text-xs font-bold text-rose-500 hover:text-rose-400">Open AI Chase Report →</button>
+        </div>
+      </section>
+
+      <!-- Customer Pipeline Queue -->
+      <section class="card-glass p-6 space-y-4 pipeline-shell crm-section">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+          <div><h2 class="section-title">Lead Operations Queue</h2><p class="section-caption">Ownership, disposition and SLA state in real time.</p></div>
+          <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+            <input type="text" id="search-input" placeholder="Search leads by name or phone..." class="p-2 text-xs w-full sm:w-72">
+            <!-- Added Dashboard Button opening a new window -->
+            <button id="open-slot-dash-btn" onclick="openSlotDashboardWindow()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-xs font-semibold shadow-md transition-all flex items-center gap-1.5">
+              📊 Slot Dashboard
+            </button>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto rounded-xl border border-[var(--border-main)]">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 15%;">Customer Name</th>
+                <th style="width: 13%;">Phone</th>
+                <th style="width: 13%;">Notes</th>
+                <th style="width: 15%;">Disposition / Status</th>
+                <th style="width: 15%;">QA & Grading</th>
+                <th style="width: 15%;">Assigned Agent</th>
+                <th style="width: 14%;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="leads-table-body" class="divide-y divide-slate-200 dark:divide-slate-800"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Admin Audit Trail -->
+      <section id="audit-trail-section" class="card-glass p-6 space-y-4">
+        <h2 class="text-lg font-bold">System Audit Trail</h2>
+        <div class="overflow-x-auto rounded-xl border border-[var(--border-main)]">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 18%;">Timestamp</th>
+                <th style="width: 16%;">Agent</th>
+                <th style="width: 18%;">Lead Target</th>
+                <th style="width: 18%;">Action Type</th>
+                <th style="width: 30%;">Details</th>
+              </tr>
+            </thead>
+            <tbody id="audit-table-body" class="divide-y divide-slate-200 dark:divide-slate-800"></tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Dedicated Slot Dashboard View (Connected & Linked with Weekly Closer Grid) -->
+    <section id="slot-dashboard-view" class="hidden space-y-6 animate-fade-in">
+      <div class="card-glass p-5 flex justify-between items-center">
+        <div>
+          <h2 class="text-lg font-bold flex items-center gap-2">
+            <span>📊</span> Weekly Closer Booking Schedule & Slots
+          </h2>
+          <p class="text-xs opacity-75 mt-1">
+            Monday to Friday booking calendar with fixed intervals. Fronters book, closers can reschedule.
+          </p>
+        </div>
+      </div>
+      <div class="card-glass p-6">
+        <div id="slot-dashboard-content" class="overflow-x-auto">
+          <!-- Dynamically populated by script.js to match the multi-closer weekly calendar grid -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Dedicated Appointments & Live Slot Availability View -->
+    <section id="appointments-view" class="hidden space-y-6 animate-fade-in">
+      <div class="card-glass p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h2 class="text-lg font-bold flex items-center gap-2">
+            <span>📅</span> Live Slot Availability & Appointments
+          </h2>
+          <p class="text-xs opacity-75 mt-1">
+            View real-time slot availability, book new appointments, and manage status updates.
+          </p>
+        </div>
+        <div class="flex items-center gap-3">
+          <input type="date" id="slot-date-picker" onchange="loadSlotAvailability()" class="p-2 text-xs">
+          <button onclick="openBookAppointmentModal()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2 rounded-xl transition-all shadow-md">
+            + Book Appointment
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Slots Grid -->
+      <div class="card-glass p-6 space-y-4">
+        <h3 class="text-sm font-bold">Available Time Slots</h3>
+        <div id="live-slots-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+      <!-- Appointments Queue & Status Management -->
+      <div class="card-glass p-6 space-y-4">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+          <h3 class="text-sm font-bold">Scheduled Appointments & Status Management</h3>
+          <select id="appointment-status-filter" onchange="renderAppointments()" class="p-2 text-xs">
+            <option value="all">All Statuses</option>
+            <option value="scheduled">Scheduled</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        <div class="overflow-x-auto rounded-xl border border-[var(--border-main)]">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 15%;">Customer Name</th>
+                <th style="width: 15%;">Phone</th>
+                <th style="width: 20%;">Appointment Time</th>
+                <th style="width: 15%;">Assigned Agent</th>
+                <th style="width: 15%;">Status</th>
+                <th style="width: 20%;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="appointments-table-body" class="divide-y divide-slate-200 dark:divide-slate-800"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dedicated Super Admin Agent Management View -->
+    <section id="agents-view" class="hidden space-y-6 animate-fade-in">
+      <div class="card-glass p-5">
+        <h2 class="text-lg font-bold flex items-center gap-2">
+          <span>👥</span> Super Admin: Agent Management Console
+        </h2>
+        <p class="text-xs opacity-75 mt-1">
+          Add new accounts, modify access levels/roles, update passwords, and configure lead assignment quotas/limits.
+        </p>
+      </div>
+
+      <!-- Add New Agent Form -->
+      <div class="card-glass p-6 space-y-4">
+        <h3 class="text-sm font-bold">Register New Team Member</h3>
+        <form onsubmit="handleCreateUser(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+          <input type="text" id="new-name" placeholder="Full Name" required class="p-2.5 text-xs">
+          <input type="email" id="new-email" placeholder="Email Address" required class="p-2.5 text-xs">
+          <input type="password" id="new-password" placeholder="Password" required class="p-2.5 text-xs">
+          <select id="new-role" class="p-2.5 text-xs">
+            <option value="fronter">Fronting Agent</option>
+            <option value="chase">Chase Agent</option>
+            <option value="closer">Closer Agent</option>
+            <option value="manager">QA Agent</option>
+            <option value="manager">Manager</option>
+            <option value="admin">Admin</option>
+            <option value="superadmin">Super Admin</option>
+          </select>
+          <button type="submit" class="bg-blue-600 hover:bg-blue-500 text-white py-2.5 rounded-xl font-semibold text-xs shadow-md transition-all">Create Account</button>
+        </form>
+      </div>
+
+      <!-- Agent Accounts Directory -->
+      <div class="card-glass p-6 space-y-4">
+        <h3 class="text-sm font-bold">Active System Users Directory</h3>
+        <div class="overflow-x-auto rounded-xl border border-[var(--border-main)]">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 8%;">ID</th>
+                <th style="width: 18%;">Full Name</th>
+                <th style="width: 22%;">Email</th>
+                <th style="width: 14%;">Access Role</th>
+                <th style="width: 14%;">Daily Lead Limit</th>
+                <th style="width: 12%;">Password Control</th>
+                <th style="width: 12%;">Delete Account</th>
+              </tr>
+            </thead>
+            <tbody id="agent-management-table-body" class="divide-y divide-slate-200 dark:divide-slate-800"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dedicated Reporting & Analytics Dashboard View -->
+    <section id="reports-view" class="hidden space-y-6 animate-fade-in">
+      
+      <!-- Top Bar & Header -->
+      <div class="card-glass p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-lg font-bold flex items-center gap-2">
+            <span>📈</span> Management Performance & Reporting
+          </h2>
+          <p class="text-xs opacity-75 mt-1" id="report-role-subtitle">
+            Real-time pipeline metrics and agent conversion analytics.
+          </p>
+        </div>
+        
+        <div class="flex items-center gap-3">
+          <select id="report-timeframe" onchange="renderReports()" class="text-xs p-2">
+            <option value="all">All Time</option>
+            <option value="today">Today</option>
+            <option value="week">This Week</option>
+            <option value="month">This Month</option>
+          </select>
+          <button onclick="exportReportData()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2 rounded-xl transition-all shadow-md">
+            📥 Export Analytics CSV
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Overview Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="card-glass p-4">
+          <span class="text-xs font-medium opacity-75">Total Pipeline Leads</span>
+          <div class="text-2xl font-bold mt-1" id="kpi-total-leads">0</div>
+          <span class="text-[10px] text-blue-500 mt-1 block">Active across system</span>
+        </div>
+
+        <div class="card-glass p-4">
+          <span class="text-xs font-medium opacity-75">Deals Won / Closed</span>
+          <div class="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1" id="kpi-closed-won">0</div>
+          <span class="text-[10px] text-emerald-500 mt-1 block" id="kpi-win-rate">0% Conversion Rate</span>
+        </div>
+
+        <div class="card-glass p-4">
+          <span class="text-xs font-medium opacity-75">Pending / In Progress</span>
+          <div class="text-2xl font-bold text-amber-500 mt-1" id="kpi-in-progress">0</div>
+          <span class="text-[10px] text-amber-500 mt-1 block">Awaiting action</span>
+        </div>
+
+        <div class="card-glass p-4">
+          <span class="text-xs font-medium opacity-75">Unreachable / Lost</span>
+          <div class="text-2xl font-bold text-rose-500 mt-1" id="kpi-lost-leads">0</div>
+          <span class="text-[10px] text-rose-500 mt-1 block">Not Interested / No Pick Up</span>
+        </div>
+      </div>
+
+      <!-- Detailed Reporting Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Breakdown By Disposition -->
+        <div class="card-glass p-5">
+          <h3 class="text-sm font-bold mb-4 flex items-center justify-between">
+            <span>📊 Disposition Distribution</span>
+            <span class="text-xs font-normal opacity-75">Real-time counts</span>
+          </h3>
+          <div id="disposition-metrics-list" class="space-y-3"></div>
+        </div>
+
+        <!-- Agent Performance Leaderboard -->
+        <div class="card-glass p-5">
+          <h3 class="text-sm font-bold mb-4 flex items-center justify-between">
+            <span>🏆 Agent Productivity Breakdown</span>
+            <span class="text-xs font-normal opacity-75">Assigned leads & status</span>
+          </h3>
+          <div class="overflow-x-auto rounded-xl border border-[var(--border-main)]">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 32%;">Agent</th>
+                  <th style="width: 17%;">Assigned</th>
+                  <th style="width: 17%;">Form Sent</th>
+                  <th style="width: 17%;">Closed</th>
+                  <th style="width: 17%;">Win %</th>
+                </tr>
+              </thead>
+              <tbody id="agent-performance-body" class="divide-y divide-slate-200 dark:divide-slate-800"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- AI Chase Operations Center -->
+      <section id="chase-ai-report" class="hidden card-glass ai-glow p-5 space-y-5">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div>
+            <h3 class="text-sm font-extrabold flex items-center gap-2">🤖 AI Chase Operations Center <span class="text-[10px] px-2 py-1 rounded-full bg-purple-500/15 text-purple-500">LIVE</span></h3>
+            <p id="chase-ai-summary" class="text-xs opacity-70 mt-1">AI is analyzing SLA risk, handoff speed and form-return velocity.</p>
+          </div>
+          <button onclick="fetchChaseAIReport()" class="text-xs font-semibold px-3 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white">Refresh AI Analysis</button>
+        </div>
+        <div id="chase-ai-kpis" class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3"></div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          <div>
+            <h4 class="text-xs font-bold mb-3">AI Recommendations</h4>
+            <div id="chase-ai-recommendations" class="space-y-2"></div>
+          </div>
+          <div>
+            <h4 class="text-xs font-bold mb-3">At-Risk / Overdue Leads</h4>
+            <div id="chase-ai-risk-list" class="space-y-2"></div>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold mb-3">Chase Agent Performance</h4>
+          <div id="chase-ai-agents" class="overflow-x-auto"></div>
+        </div>
+      </section>
+    </section>
+
+  </div>
+
+  <!-- Lead Detail & Interaction Modal -->
+  <div id="lead-detail-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+    <div id="lead-detail-content" class="card-glass w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 space-y-6 relative animate-scale-up">
+      <div class="flex justify-between items-center border-b border-[var(--border-main)] pb-4">
+        <div>
+          <h3 id="modal-customer-name" class="text-lg font-bold">Customer Lead Details</h3>
+          <p id="modal-customer-meta" class="text-xs opacity-75 mt-0.5">Phone: N/A | DOB: N/A</p>
+        </div>
+        <button onclick="closeLeadDetailModal()" class="text-slate-400 hover:text-white p-1 text-sm font-bold">&times; Close</button>
+      </div>
+
+      <!-- Fronter & Communication Notes History -->
+      <div class="space-y-3">
+        <label class="block text-xs font-bold uppercase tracking-wider opacity-75">Notes History (Fronter & Team)</label>
+        <div id="modal-notes-container" class="max-h-48 overflow-y-auto space-y-2 p-3 rounded-xl bg-slate-900/40 border border-[var(--border-main)] text-xs">
+          <!-- Populated dynamically -->
+        </div>
+        <div>
+          <textarea id="modal-new-note" placeholder="Add a new note..." rows="2" class="w-full p-2.5 text-xs"></textarea>
+          <div class="flex justify-end mt-2">
+            <button onclick="submitModalNote()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2 rounded-xl transition-all">Add Note</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reschedule & Booking Section -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-[var(--border-main)] pt-4">
+        <div>
+          <label class="block text-xs opacity-75 mb-1">Reschedule Booking Day</label>
+          <select id="modal-booking-day" class="w-full p-2.5 text-xs">
+            <option value="">Select Day...</option>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs opacity-75 mb-1">Reschedule Booking Time Slot</label>
+          <select id="modal-booking-time" class="w-full p-2.5 text-xs">
+            <option value="">Select Time Slot...</option>
+            <option value="9:15 AM">9:15 AM</option>
+            <option value="10:15 AM">10:15 AM</option>
+            <option value="11:30 AM">11:30 AM</option>
+            <option value="12:45 PM">12:45 PM</option>
+            <option value="1:45 PM">1:45 PM</option>
+            <option value="3:00 PM">3:00 PM</option>
+            <option value="4:15 PM">4:15 PM</option>
+            <option value="5:00 PM">5:00 PM</option>
+          </select>
+        </div>
+        <div class="flex items-end">
+          <button onclick="submitModalReschedule()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-2.5 rounded-xl transition-all">Update Schedule</button>
+        </div>
+      </div>
+
+      <!-- Modal Footer with Cancel & Save Actions -->
+      <div class="flex items-center justify-end gap-3 border-t border-[var(--border-main)] pt-4 mt-4">
+        <button type="button" onclick="closeLeadDetailModal()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-700 transition-all">
+          Cancel
+        </button>
+        <button type="button" onclick="saveLeadChanges()" class="px-5 py-2 rounded-xl text-xs font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-md transition-all">
+          Save Changes
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Book Appointment Modal -->
+  <div id="book-appointment-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+    <div class="card-glass w-full max-w-lg p-6 space-y-6 relative animate-scale-up">
+      <div class="flex justify-between items-center border-b border-[var(--border-main)] pb-4">
+        <h3 class="text-lg font-bold">Book New Appointment</h3>
+        <button onclick="closeBookAppointmentModal()" class="text-slate-400 hover:text-white p-1 text-sm font-bold">&times; Close</button>
+      </div>
+      <form onsubmit="handleBookAppointment(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs opacity-75 mb-1">Customer Name</label>
+          <input type="text" id="appt-customer-name" placeholder="John Doe" required class="w-full p-2.5 text-xs">
+        </div>
+        <div>
+          <label class="block text-xs opacity-75 mb-1">Customer Phone</label>
+          <input type="text" id="appt-customer-phone" placeholder="+1 (555) 000-0000" required class="w-full p-2.5 text-xs">
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs opacity-75 mb-1">Time Slot</label>
+            <select id="appt-datetime" required class="w-full p-2.5 text-xs">
+              <option value="">Select Time Slot...</option>
+              <option value="9:15 AM">9:15 AM</option>
+              <option value="10:15 AM">10:15 AM</option>
+              <option value="11:30 AM">11:30 AM</option>
+              <option value="12:45 PM">12:45 PM</option>
+              <option value="1:45 PM">1:45 PM</option>
+              <option value="3:00 PM">3:00 PM</option>
+              <option value="4:15 PM">4:15 PM</option>
+              <option value="5:00 PM">5:00 PM</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs opacity-75 mb-1">Assigned Agent</label>
+            <select id="appt-assigned-agent" required class="w-full p-2.5 text-xs">
+              <option value="">Select Agent...</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs opacity-75 mb-1">Notes</label>
+          <textarea id="appt-notes" placeholder="Appointment notes..." rows="2" class="w-full p-2.5 text-xs"></textarea>
+        </div>
+        <div class="flex justify-end gap-3 border-t border-[var(--border-main)] pt-4">
+          <button type="button" onclick="closeBookAppointmentModal()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-700 transition-all">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white shadow-md transition-all">Confirm Booking</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js?v=40"></script>
+</body>
+</html>
