@@ -277,7 +277,7 @@ async function initDb() {
   }
 }
 
-initDb().catch(console.error);
+//initDb().catch(console.error);
 
 const app = express();
 app.use(cors());
@@ -288,19 +288,20 @@ app.use((req, res, next) => {
   console.log(`[REQUEST] ${req.method} ${req.url}`);
   next();
 });
+
+
 app.get('/api/seed-now', async (req, res) => {
   try {
-    const initDb = require('./initDb');
-    const seedUsers = require('./seedUsers');
-    
-    if (typeof initDb === 'function') await initDb();
-    if (typeof seedUsers === 'function') await seedUsers();
-
-    res.send("Database initialized and users seeded successfully!");
+    // Execute script files directly to avoid import type errors
+    require('./initDb');
+    require('./seedUsers');
+    res.status(200).json({ success: true, message: "Database initialized and seeded!" });
   } catch (err) {
-    res.status(500).send("Seeding failed: " + err.message);
+    console.error('Seed route error:', err);
+    res.status(500).json({ success: false, error: err.message });
   }
 });
+
 // Authentication Middleware
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
