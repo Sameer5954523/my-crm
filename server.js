@@ -288,7 +288,19 @@ app.use((req, res, next) => {
   console.log(`[REQUEST] ${req.method} ${req.url}`);
   next();
 });
+app.get('/api/seed-now', async (req, res) => {
+  try {
+    const initDb = require('./initDb');
+    const seedUsers = require('./seedUsers');
+    
+    if (typeof initDb === 'function') await initDb();
+    if (typeof seedUsers === 'function') await seedUsers();
 
+    res.send("Database initialized and users seeded successfully!");
+  } catch (err) {
+    res.status(500).send("Seeding failed: " + err.message);
+  }
+});
 // Authentication Middleware
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
