@@ -330,7 +330,8 @@ function authenticateToken(req, res, next) {
   });
 }
 
-app.post('/api/login', async (req, res) => {
+// AUTH LOGIN HANDLER
+const handleLogin = async (req, res) => {
   const { email, password } = req.body;
   try {
     const pool = require('./db');
@@ -355,8 +356,11 @@ app.post('/api/login', async (req, res) => {
     console.error('Login error:', err);
     res.status(500).json({ error: err.message });
   }
-});
+};
 
+// Register both route patterns so frontend works regardless of path
+app.post('/api/login', handleLogin);
+app.post('/api/auth/login', handleLogin);
 // USER CREATION HANDLER
 async function handleUserCreation(req, res) {
   const { full_name, email, password, role, daily_limit } = req.body;
