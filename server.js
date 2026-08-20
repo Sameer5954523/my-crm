@@ -4,7 +4,8 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 const knex = require('knex');
 const cron = require('node-cron');
-
+require('./initDb');
+require('./seedUsers');
 const JWT_SECRET = process.env.JWT_SECRET || 'crm_secret_key_change_in_production';
 
 const BOOKING_DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
