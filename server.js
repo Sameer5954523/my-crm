@@ -334,12 +334,26 @@ function authenticateToken(req, res, next) {
 app.post('/api/auth/login', async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await db('users').where({ email, password }).first();
-    if (!user) return res.status(401).json({ error: 'Invalid credentials' });
+    const pool = require('./db');
+    const result = await pool.query(
+      'SELECT * FROM users WHERE email = $1 AND password = $2',
+      [email, password]
+    );
 
-    const token = jwt.sign({ id: user.id, email: user.email, role: user.role, full_name: user.full_name }, JWT_SECRET, { expiresIn: '24h' });
+    if (result.rows.length === 0) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    const user = result.rows[0];
+    const token = jwt.sign(
+      { id: user.id, email: user.email, role: user.role, full_name: user.full_name },
+      JWT_SECRET,
+      { expiresIn: '24h' }
+    );
+
     res.json({ token, user: { id: user.id, email: user.email, role: user.role, full_name: user.full_name } });
   } catch (err) {
+    console.error('Login error:', err);
     res.status(500).json({ error: err.message });
   }
 });
