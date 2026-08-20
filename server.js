@@ -330,8 +330,7 @@ function authenticateToken(req, res, next) {
   });
 }
 
-// AUTH LOGIN
-app.post('/api/auth/login', async (req, res) => {
+app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   try {
     const pool = require('./db');
