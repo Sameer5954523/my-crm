@@ -4,8 +4,6 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 const knex = require('knex');
 const cron = require('node-cron');
-require('./initDb');
-require('./seedUsers');
 const JWT_SECRET = process.env.JWT_SECRET || 'crm_secret_key_change_in_production';
 
 const BOOKING_DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
@@ -2473,6 +2471,19 @@ app.use((req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+app.get('/api/seed-now', async (req, res) => {
+  try {
+    const initDb = require('./initDb');
+    const seedUsers = require('./seedUsers');
+    
+    // Execute database creation and seeding sequentially
+    if (typeof initDb === 'function') await initDb();
+    if (typeof seedUsers === 'function') await seedUsers();
 
+    res.send("Database initialized and users seeded successfully!");
+  } catch (err) {
+    res.status(500).send("Seeding failed: " + err.message);
+  }
+});
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
