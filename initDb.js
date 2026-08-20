@@ -1,13 +1,13 @@
 const pool = require('./db');
 
-const createTables = async () => {
+const initDb = async () => {
   const queryText = `
     CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
         full_name VARCHAR(100) NOT NULL,
         email VARCHAR(100) UNIQUE NOT NULL,
         password_hash VARCHAR(255) NOT NULL,
-        role VARCHAR(20) CHECK (role IN ('superadmin', 'manager', 'qa', 'fronter', 'admin', 'closer', 'chase', 'fronting')) NOT NULL,
+        role VARCHAR(20) CHECK (role IN ('superadmin', 'manager', 'qa', 'fronter', 'admin', 'closer', 'chase', 'fronting', 'agent')) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
@@ -48,7 +48,7 @@ const createTables = async () => {
     
     // Seed default weekly slots if the appointments table is currently empty
     const checkSlots = await pool.query('SELECT COUNT(*) FROM appointments');
-    if (parseInt(checkSlots.rows[0].count) === 0) {
+    if (parseInt(checkSlots.rows[0].count, 10) === 0) {
       const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
       const slots = [
         '9:15 AM', '10:15 AM', '11:30 AM', '12:45 PM',
@@ -67,11 +67,11 @@ const createTables = async () => {
     }
 
     console.log('Tables "users", "customers", and "appointments" created successfully with scheduling support!');
-    process.exit(0);
+    return true;
   } catch (err) {
     console.error('Error creating tables:', err.message);
-    process.exit(1);
+    throw err; // Re-throw error so the /api/seed-now route catches it gracefully
   }
 };
 
-createTables();
+module.exports = initDb;

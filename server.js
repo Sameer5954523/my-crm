@@ -289,18 +289,33 @@ app.use((req, res, next) => {
   next();
 });
 
-
 app.get('/api/seed-now', async (req, res) => {
   try {
-    // Execute script files directly to avoid import type errors
-    require('./initDb');
-    require('./seedUsers');
-    res.status(200).json({ success: true, message: "Database initialized and seeded!" });
+    const initDb = require('./initDb');
+    const seedUsers = require('./seedUsers');
+
+    await initDb();
+    await seedUsers();
+
+    res.status(200).json({ success: true, message: "Database initialized and users seeded successfully!" });
   } catch (err) {
-    console.error('Seed route error:', err);
+    console.error('Seed route failure:', err);
     res.status(500).json({ success: false, error: err.message });
   }
 });
+
+// Authentication Middleware
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) return res.status(401).json({ error: 'Access token required' });
+
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (err) return res.status(403).json({ error: 'Invalid or expired token' });
+    req.user = user;
+    next();
+  });
+}
 
 // Authentication Middleware
 function authenticateToken(req, res, next) {
